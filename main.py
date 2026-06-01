@@ -19,7 +19,7 @@ plt.rcParams['axes.unicode_minus'] = False
 # ==========================================
 def load_and_explore_data(file_path):
     print("--- [步驟 1] 資料載入與多變數觀測 ---")
-    df = pd.read_excel(file_path)
+    df = pd.read_csv(file_path)
     print(f"資料筆數: {df.shape[0]} 筆 | 變數數量: {df.shape[1]} 個\n")
     print("【欄位型態資訊】")
     print(df.info())
@@ -44,7 +44,7 @@ def run_association_rules(df, min_support=0.1, min_confidence=0.7):
     print("\n--- [核心模型] 關聯規則分析 (Apriori) ---")
     # 關聯規則需要將資料轉換為 0/1 矩陣
     basket_df = df.select_dtypes(include=[np.number, bool]).copy()
-    basket_df = basket_df.applymap(lambda x: 1 if x > 0 else 0)
+    basket_df = basket_df.map(lambda x: 1 if x > 0 else 0)
     
     # 尋找頻繁項集
     frequent_itemsets = apriori(basket_df, min_support=min_support, use_colnames=True)
@@ -122,7 +122,7 @@ def run_clustering(df, feature_columns, n_clusters=3):
 # ==========================================
 if __name__ == "__main__":
     # 【請確保你的資料夾內有這個 Excel 檔，或把下方改成你的真實檔名】
-    file_path = "data.xlsx" 
+    file_path = "Data.csv" 
     
     try:
         # 1. 載入並觀測多變數
